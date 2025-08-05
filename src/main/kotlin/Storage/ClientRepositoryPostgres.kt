@@ -5,10 +5,9 @@ import org.example.Connection.ConexaoDB
 import org.example.Domain.Client
 import org.example.Storage.Interfaces.IClientRepository
 
+class ClientRepositoryPostgres: IClientRepository {
 
-class ClientRepository: IClientRepository {
-
-    override fun insertClient(client: Client) {
+    override fun insert(client: Client):String {
         val ulid = UlidCreator.getUlid().toString()
 
         val sql = """
@@ -21,13 +20,22 @@ class ClientRepository: IClientRepository {
         ConexaoDB.getConnection().use { conn ->
             conn.prepareStatement(sql).use { stmt ->
                 stmt.setString(1, ulid)
-                stmt.setString(2, client.client_name)
-                stmt.setString(3, client.client_email)
-                stmt.setString(4, client.client_phone)
+                stmt.setString(2, client.name)
+                stmt.setString(3, client.email)
+                stmt.setString(4, client.phone)
                 stmt.executeUpdate()
             }
         }
         println("Client inserted with ULID: $ulid")
+        return ulid
+    }
+
+    override fun getAll(): Map<String, Client> {
+        TODO("Not yet implemented")
+    }
+
+    override fun get(id: String): Client? {
+        TODO("Not yet implemented")
     }
 
 

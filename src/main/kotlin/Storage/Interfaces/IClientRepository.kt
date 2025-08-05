@@ -3,5 +3,7 @@ package org.example.Storage.Interfaces
 import org.example.Domain.Client
 
 interface IClientRepository {
-    fun insertClient(client: Client)
+    fun insert(client: Client): String
+    fun getAll(): Map<String, Client>
+    fun get(id: String): Client?
 }

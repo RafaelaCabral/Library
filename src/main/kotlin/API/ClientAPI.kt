@@ -4,33 +4,28 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.example.Domain.Client
+import org.example.Domain.ClientRequest
 import org.example.Service.ClientService
-import java.util.*
 
-@Serializable
-data class ClientRequest(
-    val client_name: String,
-    val client_email: String,
-    val client_phone: String
-)
 
 fun Route.clientAPI() {
     val service = ClientService()
 
-    post("/insertClients") {
+    post("/client") {
         val request = call.receive<ClientRequest>()
 
-        val client = Client(
-            client_name = request.client_name,
-            client_email = request.client_email,
-            client_phone = request.client_phone
-        )
+        val id = service.register(Client(request))
 
-
-        service.registerClient(client)
-
-        call.respondText("Client inserted successfully")
+        call.respond(message = id as Any, status = io.ktor.http.HttpStatusCode.OK)
     }
+
+    get("/client") {
+        val ret = service.getAll()
+        val encoded = Json.encodeToString(ret)
+        call.respond(message = encoded, status = io.ktor.http.HttpStatusCode.OK)
+    }
+
 }
