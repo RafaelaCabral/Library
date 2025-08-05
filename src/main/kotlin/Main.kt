@@ -1,21 +1,22 @@
 package org.example
 
-import org.example.Connection.ConexaoDB
-import java.sql.SQLException
+
+
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import io.ktor.server.application.*
+import io.ktor.server.routing.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
+import org.example.API.clientAPI
 
 fun main() {
-    println("Testando conexão")
-    try {
-        val connection = ConexaoDB.getConnection()
-        println("Conexão estabelecida")
-
-        val stmt = connection.createStatement()
-        val resultSet = stmt.executeQuery("SELECT version();")
-
-        if (resultSet.next()) {
-            println("Versão do PostgreSQL: ${resultSet.getString(1)}")
+    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+        install(ContentNegotiation) {
+            json()
         }
-    } catch (e: SQLException){
-        println("Não foi possível fazer conexão")
-    }
+        routing {
+            clientAPI() // essa é a rota que você criou em API/ClientAPI.kt
+        }
+    }.start(wait = true)
 }

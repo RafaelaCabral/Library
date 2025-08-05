@@ -1,9 +1,10 @@
 package org.example.Domain
 
-class Cliente (
-    val client_id: Int,
+import kotlinx.serialization.Serializable
+
+@Serializable
+class Client (
     val client_name: String,
     val client_email: String,
     val client_phone: String
-
-    )
+)
