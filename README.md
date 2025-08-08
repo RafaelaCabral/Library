@@ -134,10 +134,10 @@ Registra os empréstimos realizados pelos clientes.
 ## 🚧 Funcionalidades
 
 - [x] Cadastro e listagem de clientes
-- [x] Registro de editoras e idiomas
-- [x] Cadastro de livros com múltiplos gêneros
-- [x] Controle de inventário de exemplares
-- [x] Empréstimo e devolução de livros
+- [ ] Registro de editoras e idiomas
+- [ ] Cadastro de livros com múltiplos gêneros
+- [ ] Controle de inventário de exemplares
+- [ ] Empréstimo e devolução de livros
 
 ---
 
