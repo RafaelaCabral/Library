@@ -20,6 +20,13 @@ class ClientRepositoryMock: IClientRepository{
         return createMockClient()
     }
 
+    override fun update(id: String, client: Client): Boolean {
+        return true
+    }
+
+    override fun delete(id: String): Boolean {
+        return true
+    }
     fun createMockClient(): Client{
         return Client(
             id = UlidCreator.getUlid().toString(),

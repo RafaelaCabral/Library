@@ -7,7 +7,7 @@ import org.example.Storage.ClientRepositoryType
 
 
 class ClientService : IClientService {
-    private val repository = ClientRepositoryFactory().create(ClientRepositoryType.Memory)
+    private val repository = ClientRepositoryFactory().create(ClientRepositoryType.Postgres)
     override fun register(client: Client): String? {
         if (client.name.isBlank() || client.email.isBlank() || client.phone.isBlank()) {
             println("Campos obrigatórios em branco")
@@ -20,6 +20,33 @@ class ClientService : IClientService {
         return repository.getAll()
     }
 
-}
+    override fun getById(id: String): Client? {
+        return try {
+            repository.get(id)
+        } catch (e: Exception) {
+            println("Error getting client by ID: ${e.message}")
+            null
+        }
+    }
 
-//melhorias: criar um factory
+    override fun update(id: String, client: Client): Boolean {
+        return try {
+            repository.update(id, client)
+        } catch (e: Exception) {
+            println("Error updating client: ${e.message}")
+            false
+        }
+    }
+
+    override fun delete(id: String): Boolean {
+        return try {
+            repository.delete(id)
+        } catch (e: Exception) {
+            println("Error deleting client: ${e.message}")
+            false
+        }
+    }
+
+
+
+}
